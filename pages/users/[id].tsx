@@ -1,3 +1,4 @@
+import { CircularProgress } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -8,16 +9,30 @@ const User = () => {
     description: string;
   } | null>(null);
 
-  const { id } = useRouter().query;
-  console.log(id);
+  const router = useRouter();
+  const { id } = router.query;
+
+  const getUser = async () => {
+    try {
+      const res = await fetch(`/api/users/${id}`);
+      if (res.ok) setUser(await res.json());
+      else throw await res.json();
+    } catch (e) {
+      console.log("e", e);
+      router.push("/404");
+    }
+  };
 
   useEffect(() => {
-    fetch(`/api/users/${id}`).then(async (res) => {
-      setUser(await res.json());
-    });
+    getUser();
   }, []);
 
-  if (user === null) return <></>;
+  if (user === null)
+    return (
+      <>
+        <CircularProgress isIndeterminate color="green.300" />
+      </>
+    );
   return (
     <>
       <div>{user.id}</div>

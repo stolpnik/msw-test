@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { User } from "@/types/types";
+import { ListItem, UnorderedList } from "@chakra-ui/react";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -11,17 +12,17 @@ const Users = () => {
 
   if (!users) return <>loading...</>;
   return (
-    <>
+    <UnorderedList>
       {users.map((user: User) => (
-        <div key={user.id}>
+        <ListItem key={user.id}>
           <Link href={`/users/${user.id}`}>
             <a>
               {user.id}/{user.name}
             </a>
           </Link>
-        </div>
+        </ListItem>
       ))}
-    </>
+    </UnorderedList>
   );
 };
 

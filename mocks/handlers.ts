@@ -9,6 +9,15 @@ export const handlers = [
     switch (req.params.id) {
       case "1":
         return res(ctx.status(404), ctx.json({ msg: "error" }));
+      case "3":
+        return res(
+          ctx.delay(1000),
+          ctx.json({
+            id: "3",
+            name: "tom",
+            description: "tom is tom",
+          })
+        );
       default:
         return res(
           ctx.json({
