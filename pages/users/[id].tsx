@@ -1,4 +1,12 @@
-import { CircularProgress } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  CircularProgress,
+  Heading,
+  HStack,
+} from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -12,20 +20,20 @@ const User = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const getUser = async () => {
+  const getUser = async (id) => {
+    if (!id || typeof id !== "string") return;
     try {
       const res = await fetch(`/api/users/${id}`);
       if (res.ok) setUser(await res.json());
       else throw await res.json();
     } catch (e) {
-      console.log("e", e);
-      router.push("/404");
+      router.replace("/404");
     }
   };
 
   useEffect(() => {
-    getUser();
-  }, []);
+    getUser(id);
+  }, [id]);
 
   if (user === null)
     return (
@@ -34,11 +42,19 @@ const User = () => {
       </>
     );
   return (
-    <>
-      <div>{user.id}</div>
-      <div>{user.name}</div>
-      <div>{user.description}</div>
-    </>
+    <Box maxWidth={800}>
+      <HStack borderRadius={5} border="1px solid #ccc" spacing={8} padding={4}>
+        <Badge>{user.id}</Badge>
+        <Heading size="xl">{user.name}</Heading>
+        <div>{user.description}</div>
+      </HStack>
+      <Box marginTop={2}>
+        <ArrowBackIcon></ArrowBackIcon>
+        <Link href="/users">
+          <a>もどる</a>
+        </Link>
+      </Box>
+    </Box>
   );
 };
 
