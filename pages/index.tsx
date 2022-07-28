@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Link href="/users">Users List</Link>
+        <Link href="/players">Players List</Link>
         <Link href="/notes">Notes List</Link>
       </main>
     </div>

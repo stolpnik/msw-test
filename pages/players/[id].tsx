@@ -10,8 +10,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const User = () => {
-  const [user, setUser] = useState<{
+const Player = () => {
+  const [player, setPlayer] = useState<{
     id: number;
     name: string;
     description: string;
@@ -20,11 +20,11 @@ const User = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const getUser = async (id) => {
+  const getPlayer = async (id) => {
     if (!id || typeof id !== "string") return;
     try {
       const res = await fetch(`/api/users/${id}`);
-      if (res.ok) setUser(await res.json());
+      if (res.ok) setPlayer(await res.json());
       else throw await res.json();
     } catch (e) {
       router.replace("/404");
@@ -32,10 +32,10 @@ const User = () => {
   };
 
   useEffect(() => {
-    getUser(id);
+    getPlayer(id);
   }, [id]);
 
-  if (user === null)
+  if (player === null)
     return (
       <>
         <CircularProgress isIndeterminate color="green.300" />
@@ -44,13 +44,13 @@ const User = () => {
   return (
     <Box maxWidth={800}>
       <HStack borderRadius={5} border="1px solid #ccc" spacing={8} padding={4}>
-        <Badge>{user.id}</Badge>
-        <Heading size="xl">{user.name}</Heading>
-        <div>{user.description}</div>
+        <Badge>{player.id}</Badge>
+        <Heading size="xl">{player.name}</Heading>
+        <div>{player.description}</div>
       </HStack>
       <Box marginTop={2}>
         <ArrowBackIcon></ArrowBackIcon>
-        <Link href="/users">
+        <Link href="/players">
           <a>もどる</a>
         </Link>
       </Box>
@@ -58,4 +58,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Player;
