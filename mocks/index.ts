@@ -6,10 +6,12 @@ const mockStart = async () => {
   if (typeof window === "undefined") {
     const server = setupServer(...handlers);
     server.listen();
+    return server;
   } else {
     const worker = setupWorker(...handlers);
     worker.start();
+    return worker;
   }
 };
 
-mockStart();
+module.exports = mockStart;

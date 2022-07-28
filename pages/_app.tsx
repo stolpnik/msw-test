@@ -3,7 +3,8 @@ import type { AppProps } from "next/app";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-  require("../mocks");
+  const mockStart = require("../mocks");
+  mockStart();
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
